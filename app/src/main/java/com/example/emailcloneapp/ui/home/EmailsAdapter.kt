@@ -42,6 +42,7 @@ class EmailsAdapter (val context: Context,
 
             Glide.with(context)
                 .load(email.image)
+                .circleCrop()
                 .into(userImage)
             holder.itemView.setOnClickListener {
                 itemListener.onEmailItemClick(email)
