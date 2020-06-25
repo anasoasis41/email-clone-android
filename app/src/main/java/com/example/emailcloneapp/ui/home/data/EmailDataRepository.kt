@@ -65,4 +65,10 @@ class EmailDataRepository(val app: Application) {
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo?.isConnectedOrConnecting ?: false
     }
+
+    fun refreshEmailDataFromWeb() {
+        CoroutineScope(Dispatchers.IO).launch {
+            callWebService()
+        }
+    }
 }
