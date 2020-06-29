@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //this.actionBar?.setDisplayHomeAsUpEnabled(true)
+
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_groups,
             R.id.navigation_people))
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
 
         navView.setOnNavigationItemSelectedListener(object : NavigationView.OnNavigationItemSelectedListener,
             BottomNavigationView.OnNavigationItemSelectedListener {
