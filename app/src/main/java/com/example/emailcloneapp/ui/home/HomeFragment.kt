@@ -62,7 +62,6 @@ class HomeFragment : Fragment(), HomeItemListener {
     }
 
     override fun onEmailItemClick(email: EmailData) {
-        Toast.makeText(requireContext(),email.subtitle, Toast.LENGTH_SHORT).show()
     }
 
     override fun onUserItemClick(user: EmailData) {
