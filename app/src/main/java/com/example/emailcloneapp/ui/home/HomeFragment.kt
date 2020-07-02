@@ -43,6 +43,7 @@ class HomeFragment : Fragment(), HomeItemListener {
             requireContext(),
             RecyclerView.HORIZONTAL,
             false)
+        recyclerViewEmails.isNestedScrollingEnabled = false
 
         homeViewModel.emailData.observe(viewLifecycleOwner, Observer { dataList ->
             val listEmailData: List<EmailData> = dataList
