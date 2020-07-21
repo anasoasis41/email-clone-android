@@ -13,12 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.emailcloneapp.R
+import com.example.emailcloneapp.databinding.FragmentHomeBinding
 import com.example.emailcloneapp.ui.home.adapters.EmailsAdapter
 import com.example.emailcloneapp.ui.home.adapters.UsersAdapter
 import com.example.emailcloneapp.ui.home.data.EmailData
 
 class HomeFragment : Fragment(), HomeItemListener {
 
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var recyclerViewEmails: RecyclerView
     private lateinit var recyclerViewUsers: RecyclerView
@@ -31,20 +33,23 @@ class HomeFragment : Fragment(), HomeItemListener {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+        if (!::binding.isInitialized) {
+            binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        iconUserToolbar = rootView.findViewById(R.id.userImageToolbar)
-        recyclerViewEmails = rootView.findViewById(R.id.recyclerview_emails)
-        recyclerViewUsers = rootView.findViewById(R.id.recyclerView_users)
+            homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        recyclerViewEmails.layoutManager = LinearLayoutManager(requireContext())
-        recyclerViewUsers.layoutManager = LinearLayoutManager(
-            requireContext(),
-            RecyclerView.HORIZONTAL,
-            false)
-        recyclerViewEmails.isNestedScrollingEnabled = false
+            iconUserToolbar = binding.userImageToolbar
+            recyclerViewEmails = binding.contentHomeViews.recyclerviewEmails
+            recyclerViewUsers = binding.contentHomeViews.recyclerViewUsers
 
+            setupRecyclerView()
+            observeHome()
+        }
+
+        return binding.root
+    }
+
+    private fun observeHome() {
         homeViewModel.emailData.observe(viewLifecycleOwner, Observer { dataList ->
             val listEmailData: List<EmailData> = dataList
 
@@ -58,7 +63,16 @@ class HomeFragment : Fragment(), HomeItemListener {
             recyclerViewEmails.adapter = adapterEmails
             recyclerViewUsers.adapter = adapterUsers
         })
-        return rootView
+    }
+
+    private fun setupRecyclerView() {
+        recyclerViewEmails.layoutManager = LinearLayoutManager(requireContext())
+        recyclerViewUsers.layoutManager = LinearLayoutManager(
+            requireContext(),
+            RecyclerView.HORIZONTAL,
+            false
+        )
+        recyclerViewEmails.isNestedScrollingEnabled = false
     }
 
     override fun onEmailItemClick(email: EmailData) {
