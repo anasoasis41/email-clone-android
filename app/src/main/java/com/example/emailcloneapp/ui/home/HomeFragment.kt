@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.emailcloneapp.R
 import com.example.emailcloneapp.databinding.FragmentHomeBinding
 import com.example.emailcloneapp.ui.home.adapters.EmailsAdapter
 import com.example.emailcloneapp.ui.home.adapters.UsersAdapter

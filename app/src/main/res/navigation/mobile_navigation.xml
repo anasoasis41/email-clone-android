@@ -9,7 +9,15 @@
         android:id="@+id/navigation_home"
         android:name="com.example.emailcloneapp.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_searchPeopleFragment"
+            app:destination="@id/searchPeopleFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_events"
@@ -28,4 +36,13 @@
         android:name="com.example.emailcloneapp.ui.people.PeopleFragment"
         android:label="@string/people"
         tools:layout="@layout/people_fragment" />
+    <fragment
+        android:id="@+id/searchPeopleFragment"
+        android:name="com.example.emailcloneapp.ui.home.SearchPeopleFragment"
+        android:label="fragment_search_people"
+        tools:layout="@layout/fragment_search_people">
+        <argument
+            android:name="UserList"
+            app:argType="com.example.emailcloneapp.ui.home.data.EmailData[]" />
+    </fragment>
 </navigation>
