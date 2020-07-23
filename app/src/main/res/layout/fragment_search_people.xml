@@ -16,9 +16,11 @@
 
         <ImageView
             android:id="@+id/back_search_imageView"
-            android:layout_width="30dp"
+            android:layout_width="24dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_arrow_back_24" />
+            android:background="@drawable/ic_arrow_back_24"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView_people"

@@ -36,13 +36,12 @@
         android:name="com.example.emailcloneapp.ui.people.PeopleFragment"
         android:label="@string/people"
         tools:layout="@layout/people_fragment" />
+
     <fragment
         android:id="@+id/searchPeopleFragment"
         android:name="com.example.emailcloneapp.ui.home.SearchPeopleFragment"
         android:label="fragment_search_people"
         tools:layout="@layout/fragment_search_people">
-        <argument
-            android:name="UserList"
-            app:argType="com.example.emailcloneapp.ui.home.data.EmailData[]" />
     </fragment>
+
 </navigation>
