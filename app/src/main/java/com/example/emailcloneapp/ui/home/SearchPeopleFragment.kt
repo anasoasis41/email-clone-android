@@ -15,9 +15,10 @@ import com.example.emailcloneapp.R
 import com.example.emailcloneapp.databinding.FragmentSearchPeopleBinding
 import com.example.emailcloneapp.ui.home.adapters.SearchAdapter
 import com.example.emailcloneapp.ui.home.data.EmailData
+import com.example.emailcloneapp.utils.hideKeyboard
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
-import java.util.ArrayList
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SearchPeopleFragment : Fragment() {
 
@@ -26,10 +27,13 @@ class SearchPeopleFragment : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapterSearch: SearchAdapter
+    var listOfUsers: MutableList<EmailData> = mutableListOf()
+    val displayList = ArrayList<EmailData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        hideKeyboard()
         (activity as MainActivity).nav_view.visibility = View.INVISIBLE
     }
     override fun onCreateView(
@@ -44,20 +48,48 @@ class SearchPeopleFragment : Fragment() {
 
             // button back
             binding.backSearchImageView.setOnClickListener {
+                hideKeyboard()
                 navController.popBackStack()
             }
 
-            val listOfUsers = arguments?.getParcelableArrayList<EmailData>("userList")
+            listOfUsers = arguments?.getParcelableArrayList("userList")!!
             setupRecyclerView(listOfUsers)
-            Timber.i(listOfUsers?.size.toString())
+
+            searchView.onActionViewExpanded()
+            searchView.isIconified = false
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText!!.isNotEmpty()) {
+                        displayList.clear()
+                        val search = newText.toLowerCase(Locale.getDefault())
+                        listOfUsers.forEach {
+                            if (it.username.toLowerCase(Locale.getDefault()).contains(search)) {
+                                displayList.add(it)
+                            }
+                        }
+                        recyclerView.adapter!!.notifyDataSetChanged()
+                    } else {
+                        displayList.clear()
+                        displayList.addAll(listOfUsers)
+                        recyclerView.adapter = adapterSearch
+                    }
+                    return false
+                }
+            })
+
         }
         return binding.root
     }
 
-    private fun setupRecyclerView(listOfUsers: ArrayList<EmailData>?) {
+    private fun setupRecyclerView(listOfUsers: MutableList<EmailData>?) {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         if (!listOfUsers.isNullOrEmpty()) {
-            adapterSearch = SearchAdapter(requireContext(), listOfUsers)
+            displayList.addAll(listOfUsers)
+            adapterSearch = SearchAdapter(requireContext(), displayList)
             recyclerView.adapter = adapterSearch
         }
 

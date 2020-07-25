@@ -10,11 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.emailcloneapp.R
 import com.example.emailcloneapp.ui.home.data.EmailData
-import java.util.ArrayList
 
-class SearchAdapter (val context: Context,
-                     val usersList: ArrayList<EmailData>): RecyclerView.Adapter<SearchAdapter.SearchViewHolder>()
+class SearchAdapter(
+    val context: Context,
+    var usersList: MutableList<EmailData>
+)
+    : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>()
 {
+
     override fun getItemCount() = usersList.size
 
     override fun onCreateViewHolder(
