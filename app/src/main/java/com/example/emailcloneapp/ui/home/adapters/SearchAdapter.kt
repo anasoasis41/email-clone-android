@@ -9,47 +9,44 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.emailcloneapp.R
-import com.example.emailcloneapp.ui.home.HomeItemListener
 import com.example.emailcloneapp.ui.home.data.EmailData
+import java.util.ArrayList
 
-class UsersAdapter (val context: Context,
-                    val usersList: List<EmailData>,
-                    val itemUserListener: HomeItemListener
-):
-    RecyclerView.Adapter<UsersAdapter.UsersViewHolder>()
+class SearchAdapter (val context: Context,
+                     val usersList: ArrayList<EmailData>): RecyclerView.Adapter<SearchAdapter.SearchViewHolder>()
 {
     override fun getItemCount() = usersList.size
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): UsersViewHolder {
+    ): SearchViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val layoutId = R.layout.item_user_list
+        val layoutId = R.layout.item_search_list
         val view = inflater.inflate(layoutId, parent, false)
-        return UsersViewHolder(view)
+        return SearchViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val user = usersList[position]
         with(holder) {
-            userNameText?.let {
+            nameText?.let {
                 it.text = user.username
                 it.contentDescription = user.username
             }
+
+            emailText.text = user.email
 
             Glide.with(context)
                 .load(user.image)
                 .circleCrop()
                 .into(userImage)
-            holder.itemView.setOnClickListener {
-                itemUserListener.onUserItemClick(user)
-            }
         }
     }
 
-    inner class UsersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val userNameText = itemView.findViewById<TextView>(R.id.name_user_item_users)
-        val userImage = itemView.findViewById<ImageView>(R.id.userImage_item_users)
+    inner class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val userImage = itemView.findViewById<ImageView>(R.id.userImage)
+        val nameText = itemView.findViewById<TextView>(R.id.name_textview)
+        val emailText = itemView.findViewById<TextView>(R.id.email_textview)
     }
 }

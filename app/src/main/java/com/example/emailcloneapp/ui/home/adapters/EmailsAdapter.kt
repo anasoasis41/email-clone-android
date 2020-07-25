@@ -26,7 +26,7 @@ class EmailsAdapter (val context: Context,
         viewType: Int
     ): EmailsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val layoutId = R.layout.emails_list_item
+        val layoutId = R.layout.item_emails_list
         val view = inflater.inflate(layoutId, parent, false)
         return EmailsViewHolder(view)
     }
